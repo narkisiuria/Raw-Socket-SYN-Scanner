@@ -31,12 +31,20 @@ This is basically what `nmap -sS` does under the hood.
 - `build_IP_header.py` — IP header
 - `build_TCP_header.py` — TCP header + pseudo-header
 - `send_SYN_request.py` — sends the packet over a raw socket
-- `main.py` — runs the scan
+- `build_sniffer.py` — listens for the reply
+- `port_state_byte_checker.py` — parses the reply and figures out open/closed/filtered
+- `main.py` — runs the scan across a port range with worker threads
 
 ## Requirements
 
 Python 3, and root/admin (raw sockets need it). Only run this against machines you own or have permission to test.
 
+Note: raw sockets don't work reliably through WSL2, even in mirrored networking mode — replies from outside the host often never make it back to WSL. Run this from a real Linux machine or a VM with a bridged network adapter.
+
+## Known limitation
+
+Scanning runs on multiple threads for speed, but each thread opens its own listening socket without filtering by source port until the reply comes back. Under high thread counts, it's possible for one thread to pick up another thread's reply. Results have been consistent in testing, but this hasn't been formally fixed.
+
 ## Status
 
-Sending works. Still working on reading replies and scanning full port ranges.
+Working end to end. Verified against a real target — correctly identified open ports (53, 80) and closed ports (135, 139, 137) matching nmap's results.
