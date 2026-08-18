@@ -1,8 +1,8 @@
 import struct
-from checksum_func import get_checksum
+from src.checksum_func import get_checksum
 import socket
-from build_TCP_header import build_tcp_header
-from build_IP_header import build_ip_header
+from src.build_TCP_header import build_tcp_header
+from src.build_IP_header import build_ip_header
 
 def send_syn(src_ip, dest_ip, src_port, dest_port):
     # On the IP layer, turn on the setting called IP_HDRINCL.

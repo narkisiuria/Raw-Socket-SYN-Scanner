@@ -1,5 +1,5 @@
 import struct
-from checksum_func import get_checksum
+from src.checksum_func import get_checksum
 import socket
 
 def build_ip_header(src_ip, dest_ip):
