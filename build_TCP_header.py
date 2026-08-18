@@ -8,4 +8,4 @@ def build_tcp_header(src_port, dest_port, src_ip, dest_ip):
     combined = pseudo_header + network_bytes_packed
     checksum = get_checksum(combined)
     network_bytes_packed = struct.pack('!HHIIBBHHH', src_port, dest_port, 0, 0, 80, 2, 8192, checksum, 0,)
-    return 
+    return network_bytes_packed
